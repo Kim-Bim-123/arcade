@@ -1,0 +1,60 @@
+*{
+  font-family: "courier-prime";
+  /* border: 1px solid red; */
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background-color: lightblue;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #grid {
+    border: 2px solid red;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .snake {
+    background: blue;
+  }
+  
+  .apple {
+    background: yellow;
+    border-radius: 20px;
+  }
+  
+  .button {
+    background: lightblue;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .playAgain{
+    background-color: lightblue;
+  }
+  :hover.playAgain {
+    background: linear-gradient(90deg,lightblue, lightpink);
+    /* background-color: lightpink; */
+    /* text-decoration: underline; */
+  }
