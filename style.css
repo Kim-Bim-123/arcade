@@ -3,58 +3,40 @@
   /* border: 1px solid red; */
 }
 
-
-html, body {
-    height: 100%;
-    margin: 0;
-  }
-
   body {
-    background-color: lightblue;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .header{
+    height: 100vh;
+    width: 100vw;
+    overflow-y:hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    background-color: lightblue;
   }
+
   
   #grid {
+    background-color: lightgray;
     border: 2px solid red;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    width: 100vmin;
+    height: 100vmin;
+    display: grid;
+    grid-template-rows: repeat(21, 1fr);
+    grid-template-columns: repeat(21, 1fr);
   }
+
+  /* .header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */
+
   
   .snake {
     background: blue;
   }
   
   .apple {
-    background: yellow;
+    background: rgb(189, 22, 22);
     border-radius: 20px;
-  }
-  
-  .button {
-    background: lightblue;
-    width: 100px;
-    height: 100px;
-    position: fixed;
-    top: 100px;
-    left: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .playAgain{
-    background-color: lightblue;
-  }
-  :hover.playAgain {
-    background: linear-gradient(90deg,lightblue, lightpink);
-    /* background-color: lightpink; */
-    /* text-decoration: underline; */
   }

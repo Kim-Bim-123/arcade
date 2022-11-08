@@ -1,59 +1,47 @@
-let snake = {
-    body: [ [10, 5], [10 ,6], [10, 7], [10, 8]],
-    nextDirection: [1, 0]
+// var snake = snake || {};
+
+// var gameInstance = 0;
+// var snakeFill = [];
+
+// var snakeBody = function() {
+//   this.elm = null;
+
+// }
+
+
+let lastRenderTime = 0
+const snakeSpeed = 2
+const snakeBody = [{x: 11, y:11}]
+const grid = document.getElementById('grid')
+
+
+function main(currentTime){
+  window.requestAnimationFrame(main);
+  const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
+  if (secondsSinceLastRender < 1 / snakeSpeed){
+    return
+  };
+  console.log('Render')
+  lastRenderTime = currentTime
+
+  update()
+  draw()
 }
 
-let gameState = {
-    apple: [11, 8],
-    snake: snake // from above
-  }
 
-const canvas = document.getElementById('game');
-const context = canvas.getContext('2d');
+window.requestAnimationFrame(main)
 
-
-
-// state
-let state;
-
-function buildInitialState() {
+function update() {
 
 }
 
-// render
-function renderState() {
 
-}
-
-// maybe a dozen or so helper functions for tiny pieces of the interface
-
-// listeners
-function onBoardClick() {
-  // update state, maybe with another dozen or so helper functions...
-
-  renderState() // show the user the new state
-}
-const board = document.getElementById('board');
-board.addEventListener('click', onBoardClick); // etc
-
-
-// add to above
-function tick() {
-    // this is an incremental change that happens to the state every time you update...
-  
-    renderState()
-  }
-  
-  setInterval(tick, 1000 / 30) // as close to 30 frames per second as possible
-  
-  // now you might have things like
-  document.addEventListener('keydown', function (event) {
-    // here you might read which key was pressed and update the state accordingly
+function draw(grid) {
+  snakeBody.forEach(segment =>{
+    const snakeElement = document.createElement('div')
+    snakeElement.style.gridRowStart = segment.x
+    snakeElement.style.gridColumnStart = segment.y
+    snakeElement.classList.add('snake')
+    grid.appendChild(snakeElement)
   })
-
-
-
-
-
-
-
+}
