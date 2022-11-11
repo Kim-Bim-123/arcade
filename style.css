@@ -24,19 +24,13 @@
     grid-template-rows: repeat(21, 1fr);
     grid-template-columns: repeat(21, 1fr);
   }
-
-  /* .header{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  } */
-
   
   .snake {
     background: blue;
+    border: solid 1px black;
   }
   
-  .apple {
+  .food {
     background: rgb(189, 22, 22);
-    border-radius: 20px;
+    border: solid 1px black;
   }
