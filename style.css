@@ -3,34 +3,40 @@
   /* border: 1px solid red; */
 }
 
-  body {
-    height: 100vh;
-    width: 100vw;
-    overflow-y:hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    background-color: lightblue;
-  }
+body {
+  overflow-y:hidden;
+  margin: 0;
+  background-color: lightblue;
+}
 
-  
-  #grid {
-    background-color: lightgray;
-    border: 2px solid red;
-    width: 100vmin;
-    height: 100vmin;
-    display: grid;
-    grid-template-rows: repeat(21, 1fr);
-    grid-template-columns: repeat(21, 1fr);
-  }
-  
-  .snake {
-    background: blue;
-    border: solid 1px black;
-  }
-  
-  .food {
-    background: rgb(189, 22, 22);
-    border: solid 1px black;
-  }
+#header{
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#gameContainer{
+  text-align: center;
+}
+
+#board{
+  border: 1px solid;
+}
+
+#score{
+  font-size: 50px;
+  margin: 20px;
+}
+
+#reset{
+  font-size: 24px;
+  width: 100px;
+  height: 50px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+#reset:hover{
+  text-decoration: underline;
+}
+

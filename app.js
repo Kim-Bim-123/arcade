@@ -1,127 +1,173 @@
+const gameBoard = document.getElementById("board");
+const contxt = gameBoard.getContext("2d");
+const scoreText = document.querySelector("#score");
+const resetButton = document.querySelector("#reset");
+const gameWidth = gameBoard.width;
+const gameHeight = gameBoard.height;
+const unitSize = 25;
+const boardBackground = "lightgrey";
+const foodColor = "red";
+const snakeColor = "blue";
+let running = false;
+let xSpeed = unitSize;
+let ySpeed = 0;
+let foodx;
+let foody;
+let score = 0;
+let snake = [
+  {x: unitSize * 4, y:0},
+  {x: unitSize * 3, y:0},
+  {x: unitSize * 2, y:0},
+  {x: unitSize, y:0},
+  {x:0, y:0}
+];
 
-let lastRenderTime = 0
-const snakeSpeed = 5
-const snakeBody = [{x: 11, y:11}]
-const grid = document.getElementById('grid')
-let inputDirection = {x: 0, y: 0}
-let lastInputDirection = {x: 0, y: 0}
-let food = {x:0, y:0}
-const growRate = 1
-let newSegments = 0
+window.addEventListener("keydown", changeDirection);
+resetButton.addEventListener("click", resetGame);
+
+gameStart();
 
 
 
 
 
 
+function gameStart(){
+  running = true;
+  score.textContent = score;
+  createFood();
+  drawFood();
+  nextTick();
+};
+
+function nextTick(){
+  if(running){
+    setTimeout(()=>{
+      clearBoard();
+      drawFood();
+      moveSnake();
+      drawSnake();
+      checkGameOver();
+      nextTick();
+    }, 100);
+  } else{
+    displayGameOver();
+  }
+};
+
+function clearBoard(){
+  contxt.fillStyle =  boardBackground;
+  contxt.fillRect(0, 0, gameWidth, gameHeight);
+};
 
 
-// main game state
-function main(currentTime){
-  window.requestAnimationFrame(main);
-  const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
-  if (secondsSinceLastRender < 1 / snakeSpeed){
-    return
+function createFood(){
+  function randomFood(min,max){
+    const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
+    return randNum;
+  }
+  foodx = randomFood(0, gameWidth - unitSize);
+  foody = randomFood(0, gameWidth - unitSize);
+};
+
+function drawFood(){
+    contxt.fillStyle = foodColor;
+    contxt.fillRect(foodx, foody, unitSize, unitSize);
+};
+
+function moveSnake(){
+  const head = {x: snake[0].x + xSpeed, y: snake[0].y + ySpeed};
+  
+  snake.unshift(head);
+
+  if(snake[0].x == foodx && snake[0].y == foody){
+    score+=1;
+    scoreText.textContent = score;
+    createFood();
+  } else {
+    snake.pop();
+  }
+};
+
+function drawSnake(){
+  contxt.fillStyle = snakeColor;
+  snake.forEach(snakeSegment => {
+    contxt.fillRect(snakeSegment.x, snakeSegment.y, unitSize, unitSize)
+  }) 
   };
-  console.log('Render')
-  lastRenderTime = currentTime
 
-  update()
-  draw()
-}
+function changeDirection(event){
+  const keyPressesd = event.keyCode;
+  const left = 37;
+  const right = 39;
+  const up = 38;
+  const down = 40;
 
+  const upMove = (ySpeed == -unitSize);
+  const downMove = (ySpeed == unitSize);
+  const rightMove = (xSpeed == unitSize);
+  const leftMove = (xSpeed == -unitSize);
 
-window.requestAnimationFrame(main)
-
-
-function draw(){
-  grid.innerHTML = ''
-  drawSnake(grid)
-  drawFood(grid)
-}
-
-function update(){
-  updateSnake()
-  updateFood()
-}
-
-
-// snake
-function updateSnake() {
-  const inputDirection = getInputDirection()
-  for (let i = snakeBody.length - 2; i >= 0; i--) {
-    snakeBody[i + 1] = { ...snakeBody[i] }
+  switch(true){
+    case(keyPressesd == left && !rightMove):
+      xSpeed = -unitSize;
+      ySpeed = 0;
+      break;
+    case(keyPressesd == right && !leftMove):
+      xSpeed = unitSize;
+      ySpeed = 0;
+      break;
+    case(keyPressesd == up && !downMove):
+      xSpeed = 0;
+      ySpeed = -unitSize;
+      break; 
+    case(keyPressesd == down && !upMove):
+      xSpeed = 0;
+      ySpeed = unitSize;
+      break;       
   }
-
-  snakeBody[0].x += inputDirection.x
-  snakeBody[0].y += inputDirection.y
-}
-
-
-function drawSnake(grid) {
-  snakeBody.forEach(segment => {
-    const snakeElement = document.createElement('div')
-    snakeElement.style.gridRowStart = segment.y
-    snakeElement.style.gridColumnStart = segment.x
-    snakeElement.classList.add('snake')
-    grid.appendChild(snakeElement)
-  })
-}
-
-function growSnake(amount) {
-  newSegments += amount
-}
-
-function onSnake(position) {
-  return snakeBody.some(segment => {
-    return equalPositions(segment, position)
-  })
-}
-
-function equalPositions(pos1, pos2) {
-  return pos1.x === pos2.x && pos1.y === pos2.y
-}
-
-// inputs
-window.addEventListener('keydown', e => {
-  switch (e.key) {
-    case 'ArrowUp':
-      if (lastInputDirection.y !== 0) break
-      inputDirection = {x: 0, y: -1}
-      break
-    case 'ArrowDown':
-      if (lastInputDirection.y !== 0) break
-      inputDirection = {x: 0, y: 1}
-      break
-    case 'ArrowLeft':
-      if (lastInputDirection.x !== 0) break
-      inputDirection = {x: -1, y: 0}
-      break
-    case 'ArrowRight':
-      if (lastInputDirection.x !== 0) break
-      inputDirection = {x: 1, y: 0}
-      break          
+};
+function checkGameOver(){
+  switch(true){
+    case (snake[0].x < 0):
+      running = false;
+      break;
+    case (snake[0].x >= gameWidth):
+      running = false;
+      break;
+    case (snake[0].y < 0):
+      running = false;
+      break;
+    case (snake[0].y >= gameHeight):
+      running = false;
+      break;
   }
-})
-
-function getInputDirection() {
-  lastInputDirection = inputDirection
-  return inputDirection
-}
-
-// apple
-
-function updateFood(){
-  if (onSnake(food)) {
-    growSnake(growRate)
-    food = {x: 20, y: 10}
+  for(let i = 1; i < snake.length; i++) {
+    if(snake[i].x == snake[0].x && snake[i].y == snake[0].y){
+      running = false;
+    }
   }
-}
+};
 
-function drawFood(grid) {
-    const foodElement = document.createElement('div')
-    foodElement.style.gridRowStart = food.y
-    foodElement.style.gridColumnStart = food.x
-    foodElement.classList.add('food')
-    grid.appendChild(foodElement)
-  }
+function displayGameOver(){
+  contxt.font = "courier-prime";
+  contxt.fillStyle = "black";
+  contxt.textAlign = "center";
+  contxt.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
+  running = false;
+};
+
+function resetGame(){
+  score = 0;
+  xSpeed = unitSize;
+  ySpeed = 0;
+  snake = [
+    {x: unitSize * 4, y:0},
+    {x: unitSize * 3, y:0},
+    {x: unitSize * 2, y:0},
+    {x: unitSize, y:0},
+    {x:0, y:0}
+  ];
+  gameStart();
+};
+
