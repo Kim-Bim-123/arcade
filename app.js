@@ -32,7 +32,7 @@ gameStart();
 
 
 
-function gameStart(){
+function gameStart(){ 
   running = true;
   score.textContent = score;
   createFood();
@@ -98,10 +98,10 @@ function drawSnake(){
 
 function changeDirection(event){
   const keyPressesd = event.keyCode;
-  const left = 37;
-  const right = 39;
-  const up = 38;
-  const down = 40;
+  const left = 65;
+  const right = 68;
+  const up = 87;
+  const down = 83;
 
   const upMove = (ySpeed == -unitSize);
   const downMove = (ySpeed == unitSize);
@@ -150,24 +150,24 @@ function checkGameOver(){
 };
 
 function displayGameOver(){
-  contxt.font = "courier-prime";
+  contxt.font = "25px courier-prime";
   contxt.fillStyle = "black";
   contxt.textAlign = "center";
-  contxt.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
+  contxt.fillText("GAME OVER! Try Again!", gameWidth / 2, gameHeight / 2);
   running = false;
 };
 
 function resetGame(){
-  score = 0;
-  xSpeed = unitSize;
-  ySpeed = 0;
-  snake = [
-    {x: unitSize * 4, y:0},
-    {x: unitSize * 3, y:0},
-    {x: unitSize * 2, y:0},
-    {x: unitSize, y:0},
-    {x:0, y:0}
-  ];
-  gameStart();
+    score = 0;
+    score.fillText = "0"
+    xSpeed = unitSize;
+    ySpeed = 0;
+    snake = [
+      {x: unitSize * 4, y:0},
+      {x: unitSize * 3, y:0},
+      {x: unitSize * 2, y:0},
+      {x: unitSize, y:0},
+      {x:0, y:0}
+    ];
+    gameStart();
 };
-
