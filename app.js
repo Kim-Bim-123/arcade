@@ -1,6 +1,6 @@
 const gameBoard = document.getElementById("board");
 const contxt = gameBoard.getContext("2d");
-const scoreText = document.querySelector("#score");
+const scoreText = document.getElementById("score");
 const resetButton = document.querySelector("#reset");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
@@ -159,7 +159,6 @@ function displayGameOver(){
 
 function resetGame(){
     score = 0;
-    score.fillText = "0"
     xSpeed = unitSize;
     ySpeed = 0;
     snake = [
